@@ -36,6 +36,7 @@
 #include "addons/gamepad_usb_host.h"
 #include "addons/he_trigger.h"
 #include "addons/tg16_input.h"
+#include "addons/staiko.h"
 
 #include "CRC32.h"
 #include "FlashPROM.h"
@@ -1046,6 +1047,11 @@ void ConfigUtils::initUnsetPropertiesWithDefaults(Config& config)
     INIT_UNSET_PROPERTY(config.addonOptions.tg16Options, dataPin1, TG16_PAD_DATA_PIN1);
     INIT_UNSET_PROPERTY(config.addonOptions.tg16Options, dataPin2, TG16_PAD_DATA_PIN2);
     INIT_UNSET_PROPERTY(config.addonOptions.tg16Options, dataPin3, TG16_PAD_DATA_PIN3);
+
+    // addonOptions.staikoOptions
+    INIT_UNSET_PROPERTY(config.addonOptions.staikoOptions, enabled, STAIKO_ENABLED);
+    INIT_UNSET_PROPERTY(config.addonOptions.staikoOptions, holdTimeMs, STAIKO_HOLD_TIME_MS);
+    INIT_UNSET_PROPERTY(config.addonOptions.staikoOptions, releaseTimeMs, STAIKO_RELEASE_TIME_MS);
 }
 
 
