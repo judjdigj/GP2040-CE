@@ -20,7 +20,7 @@ void STaikoAddon::setup()
     onboardLED.Setup(16, 1, LED_FORMAT_GRB, pio0, 0);
 
     if (!gpio_get(7)) {
-        colors[0] = 0x00333300;
+        colors[0] = 0x00222200;
         onboardLED.SetFrame(colors);
         onboardLED.Show();
         ledState = true;
@@ -33,8 +33,14 @@ void STaikoAddon::preprocess()
 {
     if(!ledState && time_us_64() - ledDelayTimer > 500000) {
         if(DriverManager::getInstance().getInputMode() == INPUT_MODE_KEYBOARD) {
-            pressHoldTime == PRESS_HOLD_TIME_SIM;
-            colors[0] = 0x00003333; 
+            pressHoldTime = PRESS_HOLD_TIME_SIM;
+            colors[0] = 0x00002222; 
+            onboardLED.SetFrame(colors);
+            onboardLED.Show();
+            ledState = true;
+        }
+        else if (DriverManager::getInstance().getInputMode() == INPUT_MODE_XINPUT) {
+            colors[0] = 0x00111111; 
             onboardLED.SetFrame(colors);
             onboardLED.Show();
             ledState = true;
@@ -51,7 +57,7 @@ void STaikoAddon::preprocess()
             onboardLED.Show();
             ledState = true;
         }
-        else if (DriverManager::getInstance().getInputMode() == INPUT_MODE_XINPUT) {
+        else if (DriverManager::getInstance().getInputMode() == INPUT_MODE_XBONE) {
             colors[0] = 0x00330000;
             onboardLED.SetFrame(colors);
             onboardLED.Show();
@@ -109,22 +115,31 @@ void STaikoAddon::process()
         if(time_us_64() - hitDetectedTimer < HIT_DETECTION_TIME) {
             if(adc_get_raw(0) > maxValue && !ButtonPressed[0]) {
                 maxValue = adc_get_raw(0);
+                maxTrendValue = trend_val[0];
                 maxKey = 0;
+                maxTrendKey = 0;
             }
             if(adc_get_raw(1) > maxValue && !ButtonPressed[1]) {
                 maxValue = adc_get_raw(1);
+                maxTrendValue = trend_val[1];
                 maxKey = 1;
+                maxTrendKey = 1;
+
             }
             if(adc_get_raw(2) > maxValue && !ButtonPressed[2]) {
                 maxValue = adc_get_raw(2);
+                maxTrendValue = trend_val[2];
                 maxKey = 2;
+                maxTrendKey = 2;
             }
             if(adc_get_raw(3) > maxValue && !ButtonPressed[3]) {
                 maxValue = adc_get_raw(3);
+                maxTrendValue = trend_val[3];
                 maxKey = 3;
+                maxTrendKey = 3;
             }
         }
-        else {
+        else if(maxKey != -1 && maxKey == maxTrendKey) {
             debounce_timer[0] = time_us_64();
             debounce_timer[1] = time_us_64();
             debounce_timer[2] = time_us_64();

@@ -60,6 +60,8 @@ private:
     int16_t trend_val[4] = {0, 0, 0, 0};
     int16_t maxValue = 0;
     int16_t maxKey = -1;
+    int16_t maxTrendValue = 0;
+    int16_t maxTrendKey = -1;
     uint64_t timer = 0;
     uint64_t speedTimer = 0;
 
