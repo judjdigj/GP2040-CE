@@ -69,3 +69,4 @@ if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
 fi
 
 export GP2040_BOARDCONFIG=WaveshareZero
+export PICO_BOARD=waveshare_rp2040_zero
